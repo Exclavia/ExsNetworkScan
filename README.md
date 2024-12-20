@@ -3,7 +3,7 @@
 A simple network scanner written in Python using [Scapy](https://github.com/secdev/scapy).
 
 ## Download & setup
-Download and unzip [master package](https://github.com/tjwehler/Network-Scanner/archive/refs/heads/main.zip)
+Download and unzip [master package](https://github.com/tjwehler/Network-Scanner/archive/refs/heads/master.zip)
 
 or clone the git:
 ```
