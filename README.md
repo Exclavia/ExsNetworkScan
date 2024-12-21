@@ -1,5 +1,10 @@
-# ExsNetworkScan
+<html>
+ <head>
+  <link rel="icon" type="image/x-icon" href="https://exclavia.network/favicon.ico">
+ </head>
+</html>
 
+# ExsNetworkScan
 
 
 ![PyPI - Status](https://img.shields.io/pypi/status/ExsNetworkScan?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org&style=flat-square) 
