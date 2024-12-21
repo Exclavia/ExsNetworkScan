@@ -1,15 +1,16 @@
-![GitHub License](https://img.shields.io/github/license/Exclavia/ExsNetworkScan?style=for-the-badge&logoSize=auto)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![GitHub](https://img.shields.io/badge/GitHub-181717.svg?style=for-the-badge&logo=GitHub&logoColor=white)
-![PyPi](https://img.shields.io/badge/pypi-%23ececec.svg?style=for-the-badge&logo=pypi&logoColor=1f73b7)
+
+
 
 
 
 # ExsNetworkScan
-A simple network scanner written in Python using [Scapy](https://github.com/secdev/scapy).
 
+
+![PyPI - Status](https://img.shields.io/pypi/status/ExsNetworkScan?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org&style=flat-square) 
+![GitHub License](https://img.shields.io/github/license/Exclavia/ExsNetworkScan?style=flat-square)
 ![Network-Scanner](https://github.com/Exclavia/ExsNetworkScan/blob/master/Assets/git.png)
 
+A simple network scanner written in Python using [Scapy](https://github.com/secdev/scapy).
 
  ## Usage and Setup
  
