@@ -9,7 +9,7 @@
 ![PyPI - Status](https://img.shields.io/pypi/status/ExsNetworkScan?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org&style=flat-square) 
 ![GitHub License](https://img.shields.io/github/license/Exclavia/ExsNetworkScan?style=flat-square)
 
-![Network-Scanner](https://i.imgur.com/97i705Y.png)
+![Network-Scanner](https://raw.githubusercontent.com/Exclavia/ExsNetworkScan/refs/heads/master/Assets/git.png)
 
 A simple network scanner written in Python using [Scapy](https://github.com/secdev/scapy).
 
