@@ -1,5 +1,7 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-# Network Scanner
+
+
+# Network Scanner - ![GitHub License](https://img.shields.io/github/license/Exclavia/gpl2)
 A simple network scanner written in Python using [Scapy](https://github.com/secdev/scapy).
 
 ![Network-Scanner](https://github.com/Exclavia/Network-Scanner/blob/master/Assets/git.png)
