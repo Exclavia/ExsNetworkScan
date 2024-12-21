@@ -1,7 +1,7 @@
 # [Commits](https://github.com/Exclavia/Network-Scanner/commits/master) - Change log
 
-> [2024/12/21](#2024/12/21)\
-> [2024/12/20](#2024/12/20)
+> [2024/12/21](#20241221)\
+> [2024/12/20](#20241220)
 
 <br>
 
