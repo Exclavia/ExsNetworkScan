@@ -1,12 +1,14 @@
 # [Commits](https://github.com/Exclavia/Network-Scanner/commits/master) - Change log
 
-> [2024/12/21](#20241221)\
-> [2024/12/20](#20241220)
+> [2024/12/21 commits](#20241221)\
+> [2024/12/20 commits](#20241220) 
 
 <br>
 
 ### 2024/12/21
 ```
+- Update CHANGELOG.md
+- Update CHANGELOG.md
 - Create CHANGELOG.md
 - Create python-publish.yml
 - Update README.md
