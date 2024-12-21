@@ -1,4 +1,5 @@
 <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/Exclavia/ExsNetworkScan/refs/heads/master/Assets/scanner.ico">
+
 # ExsNetworkScan
 
 
