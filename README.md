@@ -1,5 +1,4 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Scrapy](https://img.shields.io/badge/scrapy-%2360a839.svg?style=for-the-badge&logo=scrapy&logoColor=d1d2d3)
 # Network Scanner
 A simple network scanner written in Python using [Scapy](https://github.com/secdev/scapy).
 
