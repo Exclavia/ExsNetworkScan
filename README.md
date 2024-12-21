@@ -2,7 +2,7 @@
 # Network Scanner
 A simple network scanner written in Python using [Scapy](https://github.com/secdev/scapy).
 
-## Download & setup
+## Download
 Download and unzip [master package](https://github.com/tjwehler/Network-Scanner/archive/refs/heads/master.zip)
 
 or clone the git:
@@ -10,18 +10,15 @@ or clone the git:
 git clone https://github.com/tjwehler/Network-Scanner
 ```
 
- You **have** to make sure to set your networks default gateway IP in the [config](https://github.com/tjwehler/Network-Scanner/blob/master/default_gateway.config) file.
-
- Easy way to get your default gateway IP is to just open **command prompt** and type: `ipconfig`
-
- Your gateway IP (A common one is `192.168.1.1`, however this is not standard) will be labeled as `Default Gateway` usually at the bottom of the list on whichever network adapter you use.
-
-You also need an API key for the mac address lookup service. It's free at [maclookup.app](https://my.maclookup.app/)
-
-Once you get a key, replace the line in the [apikey](https://github.com/tjwehler/Network-Scanner/blob/master/apikey.config) config.
-
- ## Usage
+ ## Usage and Setup
  You can either run via the `run.bat` or by running the `main.py` script.
+ 
+ On first run you will be prompted to set your default gateway IP and to set an API Key for the vendor lookup service.
+ 
+ To get your gateway IP, open command prompt and type: `ipconfig` It will be labeled as default gateway.
+ 
+ To get an API Key (It's free and it stops lookup rate limits), create an account at https://my.maclookup.app/login
+ 
 
  ## Requirements
 
