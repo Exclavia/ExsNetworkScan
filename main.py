@@ -11,10 +11,10 @@ gwc_path = "Config/default_gateway.ini"
 api_path = "Config/apiKey.ini"
 
 
-
+# Get current working directory.
 cwd_str = str(os.getcwd()).replace("\\", "/") + "/"
 
-# Global list for scanned items
+# Global list for scanned items.
 clients = []
 
 
@@ -70,7 +70,7 @@ def no_devices(default_gateway):
 
 
 
-# Save result function
+# Options to save/run again/exit
 def result_options(api_check, current_gateway, dtstr, dtstr_file):
     setApi = api_check
     gateway = current_gateway
@@ -85,6 +85,8 @@ def result_options(api_check, current_gateway, dtstr, dtstr_file):
     print("[3] Exit without saving")
     print("")
     saveout = input("[0/1/2/3]: ")
+    
+    # Save and exit.
     if saveout == "0":
         # Saves to the saved/ folder that comes with the script.
         f = open("saved/" + dt_file_str + "_network-scan.txt", "w")
@@ -105,7 +107,7 @@ def result_options(api_check, current_gateway, dtstr, dtstr_file):
         exit()
         
         
-        
+    # Save and run again.   
     if saveout == "1":
         # Saves to the saved/ folder that comes with the script.
         f = open("saved/" + dt_file_str + "_network-scan.txt", "w")
@@ -128,9 +130,8 @@ def result_options(api_check, current_gateway, dtstr, dtstr_file):
         net_scan(api_check=setApi, default_gateway=gateway)
         
         
-        
+    # No save, run again.
     if saveout == "2":
-        # No save, run again.
         print("")
         print("Results not saved.")
         print("")
@@ -138,9 +139,8 @@ def result_options(api_check, current_gateway, dtstr, dtstr_file):
         time.sleep(1)
         net_scan(api_check=setApi, default_gateway=gateway)
         
-        
+    # No save, exit.    
     if saveout == "3":
-        # No save, exit.
         print("")
         print("Results not saved.")
         print("")
