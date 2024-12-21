@@ -1,8 +1,4 @@
-<html>
- <head>
-  <link rel="icon" type="image/x-icon" href="https://exclavia.network/favicon.ico">
- </head>
-</html>
+
 
 # ExsNetworkScan
 
