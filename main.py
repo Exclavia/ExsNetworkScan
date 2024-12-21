@@ -11,10 +11,7 @@ gwc_path = "Config/default_gateway.ini"
 api_path = "Config/apiKey.ini"
 
 
-# Set global date/time of program
-current_datetime = datetime.now()
-datetime_string = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
-dt_file_str = current_datetime.strftime('%Y-%m-%d_%H.%M.%S')
+
 cwd_str = str(os.getcwd()).replace("\\", "/") + "/"
 
 # Global list for scanned items
@@ -74,12 +71,21 @@ def no_devices(default_gateway):
 
 
 # Save result function
-def save_results():
+def result_options(api_check, current_gateway, dtstr, dtstr_file):
+    setApi = api_check
+    gateway = current_gateway
+    datetime_string = dtstr
+    dt_file_str = dtstr_file
     
     cursor.show()
-    
-    saveout = input("Save results?[y/n]: ")
-    if saveout.capitalize() == "Y":
+    print("")
+    print("[0] Save results and exit")
+    print("[1] Save results and run again")
+    print("[2] Run again without saving")
+    print("[3] Exit without saving")
+    print("")
+    saveout = input("[0/1/2/3]: ")
+    if saveout == "0":
         # Saves to the saved/ folder that comes with the script.
         f = open("saved/" + dt_file_str + "_network-scan.txt", "w")
         f.write("IP" + " "*18+"MAC" + " "*22 + "Vendor")
@@ -90,7 +96,6 @@ def save_results():
             
         f.write("\n" + "="*68)
         f.write("\n")
-        
         f.write("\nNetwork scanned at: " + datetime_string)
         f.close()
         
@@ -99,7 +104,42 @@ def save_results():
         print("")
         exit()
         
-    if saveout.capitalize() == "N":
+        
+        
+    if saveout == "1":
+        # Saves to the saved/ folder that comes with the script.
+        f = open("saved/" + dt_file_str + "_network-scan.txt", "w")
+        f.write("IP" + " "*18+"MAC" + " "*22 + "Vendor")
+        f.write("\n" + "="*68)
+        
+        for client in clients:
+            f.write("\n{:16}    {}".format(client['ip'], client['Vendor(MAC)']))
+            
+        f.write("\n" + "="*68)
+        f.write("\n")
+        f.write("\nNetwork scanned at: " + datetime_string)
+        f.close()
+        
+        print("")
+        print("Results saved: "+ cwd_str + "saved/"+ dt_file_str + "_network-scan.txt")
+        print("")
+        print("Running again...")
+        time.sleep(1)
+        net_scan(api_check=setApi, default_gateway=gateway)
+        
+        
+        
+    if saveout == "2":
+        # No save, run again.
+        print("")
+        print("Results not saved.")
+        print("")
+        print("Running again...")
+        time.sleep(1)
+        net_scan(api_check=setApi, default_gateway=gateway)
+        
+        
+    if saveout == "3":
         # No save, exit.
         print("")
         print("Results not saved.")
@@ -107,11 +147,11 @@ def save_results():
         exit()
         
     # Catch for any invalid inputs.
-    if saveout.capitalize() != "Y" and saveout.capitalize() != "N":
+    if saveout != "0" and saveout != "1" and saveout != "2" and saveout != "3":
         print("")
         print("Invalid option!")
         print("")
-        save_results()
+        result_options(api_check=setApi, current_gateway=gateway, dtstr=datetime_string, dtstr_file=dt_file_str)
         
 
 # Overall net scanning function
@@ -120,7 +160,13 @@ def save_results():
 def net_scan(api_check, default_gateway):
     clear_console()
     cursor.hide()
+    clients.clear()
     gateway = default_gateway
+    
+    # Set date/time of run
+    current_datetime = datetime.now()
+    datetime_string = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+    dt_file_str = current_datetime.strftime('%Y-%m-%d_%H.%M.%S')
     
     # '/24' - Checks IP on network 1 - 255 ( 192.168.1.xxx)
     target_ip = gateway + "/24"
@@ -155,7 +201,7 @@ def net_scan(api_check, default_gateway):
             no_devices(gateway)
         if i > 0:
             # Sends to print function (along with gateway and device count)
-            network_print(gateway, device_count=i)
+            network_print(apiCheck=True, default_gateway=gateway, device_count=i, current_dt=datetime_string, cdt_file=dt_file_str)
             
     # No api key.        
     if api_check == False:
@@ -178,14 +224,17 @@ def net_scan(api_check, default_gateway):
         if i == 0:
             no_devices(gateway)
         if i > 0:
-            network_print(gateway, device_count=i)
+            network_print(apiCheck=False, default_gateway=gateway, device_count=i, current_dt=datetime_string, cdt_file=dt_file_str)
 
 
 # Print/Console out function
-def network_print(default_gateway, device_count):
+def network_print(apiCheck, default_gateway, device_count, current_dt, cdt_file):
     clear_console()
+    api = apiCheck
     gateway = default_gateway
     i = device_count
+    datetime_string = current_dt
+    dt_string_file = cdt_file
     
     print("")
     print(" " + str(i) + " available devices in the network [Gateway - " + gateway + "]:")
@@ -204,7 +253,7 @@ def network_print(default_gateway, device_count):
     print(" Network scanned at: " + datetime_string)
     print("")
     # Calls save function.
-    save_results()
+    result_options(api_check=api, current_gateway=gateway, dtstr=datetime_string, dtstr_file=dt_string_file)
     
     
 
