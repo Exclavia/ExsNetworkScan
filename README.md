@@ -2,10 +2,10 @@
 # Network Scanner
 A simple network scanner written in Python using [Scapy](https://github.com/secdev/scapy).
 
-![Network-Scanner](https://github.com/tjwehler/Network-Scanner/blob/master/Assets/git.png)
+![Network-Scanner](https://github.com/Exclavia/Network-Scanner/blob/master/Assets/git.png)
 
 ## Download
-Download and unzip [master package](https://github.com/tjwehler/Network-Scanner/archive/refs/heads/master.zip)
+Download and unzip [master package](https://github.com/Exclavia/Network-Scanner/archive/refs/heads/master.zip)
 
 or clone the git:
 ```
