@@ -4,10 +4,12 @@ import requests
 import time
 from datetime import datetime
 import cursor
+import configparser
 
-# Path to Config files
-gwc_path = "Config/default_gateway.ini"
-api_path = "Config/apiKey.ini"
+config = configparser.ConfigParser()
+ini_file = "exnsConfig.ini"
+
+
 
 # Global list for scanned items.
 clients = []
@@ -18,7 +20,7 @@ def clear_console():
 
 def get_mac_details(mac_address, use_api=False):
     """Get vendor names based on MAC address."""
-    apiKey = open(api_path, "r").readline().strip() if use_api else None
+    apiKey = config["apiKey"]["Key"] if use_api else None
     url = f"https://api.maclookup.app/v2/macs/{mac_address}"
     if apiKey:
         url += f'?apiKey={apiKey}'
@@ -34,18 +36,18 @@ def get_mac_details(mac_address, use_api=False):
 def no_devices(default_gateway):
     """Handle case when no devices are found."""
     clear_console()
-    print(f"\n No devices found in the network.\n Make sure your default gateway is set in the Config/default_gateway.ini file.\n Current gateway set: {default_gateway}\n")
+    print(f"\n No devices found in the network.\n Make sure your default gateway is set in the config file.\n Current gateway set: {default_gateway}\n")
     exit()
 
 def save_results(dt_file_str, datetime_string):
     """Save scan results to a file."""
-    with open(f"saved/{dt_file_str}_network-scan.txt", "w") as f:
+    with open(f"{dt_file_str}_network-scan.txt", "w") as f:
         f.write("IP" + " " * 18 + "MAC" + " " * 22 + "Vendor\n")
         f.write("=" * 68 + "\n")
         for client in clients:
             f.write(f"{client['ip']:16}    {client['Vendor(MAC)']}\n")
         f.write("=" * 68 + f"\n\nNetwork scanned at: {datetime_string}\n")
-    print(f"\nResults saved: {os.getcwd()}/saved/{dt_file_str}_network-scan.txt\n")
+    print(f"\nResults saved: {os.getcwd()}\\{dt_file_str}_network-scan.txt\n")
 
 def result_options(api_check, current_gateway, dtstr, dtstr_file):
     """Handle user options after scanning."""
@@ -63,6 +65,7 @@ def result_options(api_check, current_gateway, dtstr, dtstr_file):
         if saveout == "1":
             time.sleep(1)
             net_scan(api_check, current_gateway)
+        exit()
     
     if saveout in {"2", "3"}:
         if saveout == "2":
@@ -118,15 +121,28 @@ def config_set():
     """Check and set configuration for gateway and API key."""
     clear_console()
     
-    if os.path.exists(gwc_path):
-        gateway = open(gwc_path, "r").readline().strip()
-        if os.path.exists(api_path):
+    if os.path.exists(ini_file) == False:
+        config.add_section("DefaultGateway")
+        config.add_section("apiKey")
+        config.set("DefaultGateway", "ip", "")
+        config.set("apiKey", "key", "")
+        with open("exnsConfig.ini", "w") as configfile:
+            config.write(configfile)
+    config.read(ini_file)        
+    gateway = config["DefaultGateway"]["ip"]
+    api_key = config["apiKey"]["key"]
+    
+    
+    if gateway != "":
+        
+        if api_key != "":
             net_scan(api_check=True, default_gateway=gateway)
         else:
             if input("No API key set (Free at https://my.maclookup.app/). Would you like to set a key? [y/n]: ").strip().lower() == "y":
                 key_in = input("Input your API Key:\n").strip()
-                with open(api_path, "w") as f:
-                    f.write(key_in)
+                config["apiKey"]["key"] = key_in
+                with open(ini_file, "w") as f:
+                    config.write(f)
                 print("API key set!")
                 time.sleep(0.5)
                 net_scan(api_check=True, default_gateway=gateway)
@@ -135,8 +151,9 @@ def config_set():
     else:
         ip_in = input("No gateway IP set. Please set your default gateway IP: ").strip()
         if ip_in:
-            with open(gwc_path, "w") as f:
-                f.write(ip_in)
+            config["DefaultGateway"]["ip"] = ip_in
+            with open(ini_file, "w") as f:
+                config.write(f)
             print(f"{ip_in} set as gateway IP.")
             time.sleep(0.5)
             config_set()
