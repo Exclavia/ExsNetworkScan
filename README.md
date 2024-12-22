@@ -41,7 +41,6 @@ To get an API Key (It's free and it stops lookup rate limits), create an account
 
 <br>
 
- > [!NOTE]
  > I'm not entirely sure how much of Scapy is required to run it (as there are some optional dependencies you can opt out of, but I'm fairly certain you are going to most likely need [npcap](https://npcap.com/),
  > however you can try running it first to see if you can just use the base Scapy package.
 
