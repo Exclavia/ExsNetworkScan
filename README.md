@@ -3,8 +3,11 @@
 # ExsNetworkScan
 
 
-![PyPI - Status](https://img.shields.io/pypi/status/ExsNetworkScan?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org&style=flat-square) 
-![GitHub License](https://img.shields.io/github/license/Exclavia/ExsNetworkScan?style=flat-square)
+
+<a href="https://test.pypi.org/project/ExsNetworkScan/" target="_blank"><img alt="TestPyPi" src="https://img.shields.io/pypi/status/ExsNetworkScan?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org&style=flat-square&label=TestPyPi"></a>
+<a href="https://git.exclavia.network/license/" target="_blank"><img alt="GitHub License" src="https://img.shields.io/github/license/Exclavia/ExsNetworkScan?style=flat-square"></a>
+<a href="https://git.exclavia.network/ExsNetworkScan" target="_blank"><img alt="Website" src="https://img.shields.io/website?url=https%3A%2F%2Fgit.exclavia.network%2FExsNetworkScan?style=flat-square"></a>
+
 
 ![Network-Scanner](https://raw.githubusercontent.com/Exclavia/ExsNetworkScan/refs/heads/master/Assets/git.png)
 
@@ -42,7 +45,6 @@ To get an API Key (It's free and it stops lookup rate limits), create an account
  > I'm not entirely sure how much of Scapy is required to run it (as there are some optional dependencies you can opt out of, but I'm fairly certain you are going to most likely need [npcap](https://npcap.com/),
  > however you can try running it first to see if you can just use the base Scapy package.
 
-<br>
 
 ### Download master.zip
 - [Download](https://github.com/Exclavia/ExsNetworkScan/archive/refs/heads/master.zip)
