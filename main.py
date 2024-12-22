@@ -9,7 +9,7 @@ import configparser
 config = configparser.ConfigParser()
 ini_file = "exnsConfig.ini"
 
-
+getCwd = os.getcwd()
 
 # Global list for scanned items.
 clients = []
@@ -20,7 +20,7 @@ def clear_console():
 
 def get_mac_details(mac_address, use_api=False):
     """Get vendor names based on MAC address."""
-    apiKey = config["apiKey"]["Key"] if use_api else None
+    apiKey = config["apiKey"]["key"] if use_api else None
     url = f"https://api.maclookup.app/v2/macs/{mac_address}"
     if apiKey:
         url += f'?apiKey={apiKey}'
@@ -36,7 +36,7 @@ def get_mac_details(mac_address, use_api=False):
 def no_devices(default_gateway):
     """Handle case when no devices are found."""
     clear_console()
-    print(f"\n No devices found in the network.\n Make sure your default gateway is set in the config file.\n Current gateway set: {default_gateway}\n")
+    print(f"\n No devices found in the network.\n Make sure your default gateway is set in the {getCwd}\\exnsConfig.ini file.\n Current gateway set: {default_gateway}\n")
     exit()
 
 def save_results(dt_file_str, datetime_string):
@@ -124,13 +124,16 @@ def config_set():
     if os.path.exists(ini_file) == False:
         config.add_section("DefaultGateway")
         config.add_section("apiKey")
-        config.set("DefaultGateway", "ip", "")
-        config.set("apiKey", "key", "")
-        with open("exnsConfig.ini", "w") as configfile:
+        config.set("DefaultGateway", "IP", "")
+        config.set("apiKey", "Key", "")
+        with open(ini_file, "w") as configfile:
             config.write(configfile)
+            
+            
     config.read(ini_file)        
     gateway = config["DefaultGateway"]["ip"]
     api_key = config["apiKey"]["key"]
+    
     
     
     if gateway != "":
@@ -140,12 +143,25 @@ def config_set():
         else:
             if input("No API key set (Free at https://my.maclookup.app/). Would you like to set a key? [y/n]: ").strip().lower() == "y":
                 key_in = input("Input your API Key:\n").strip()
-                config["apiKey"]["key"] = key_in
-                with open(ini_file, "w") as f:
-                    config.write(f)
-                print("API key set!")
-                time.sleep(0.5)
-                net_scan(api_check=True, default_gateway=gateway)
+                if key_in:
+                    url = f"https://api.maclookup.app/v2/macs/C8:D7:19:FF:FF:FF?apiKey={key_in}"
+                    response = requests.get(url)
+                    
+                    if response.status_code == 401:
+                        print("Error in API Key")
+                        time.sleep(1)
+                        config_set()
+                    
+                    config["apiKey"]["key"] = key_in
+                    with open(ini_file, "w") as f:
+                        config.write(f)
+                    print("API key set!")
+                    time.sleep(0.5)
+                    net_scan(api_check=True, default_gateway=gateway)
+                else:
+                    print("API Key cannot be blank!")
+                    time.sleep(1)
+                    config_set()
             else:
                 net_scan(api_check=False, default_gateway=gateway)
     else:
