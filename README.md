@@ -13,7 +13,7 @@
 
 A simple network scanner written in Python using [Scapy](https://github.com/secdev/scapy).
 
- ## Usage and Setup
+## Usage and Setup
  
  Install with pip:
  ```
@@ -34,7 +34,7 @@ To run, just type command:  `netscan`
  **API Key (Optional but recommended):**\
 To get an API Key (It's free and it stops lookup rate limits), create an account at https://my.maclookup.app/login
 
- ## Dependencies
+## Dependencies
 
  - [Scapy](https://github.com/secdev/scapy)
  - [Cursor](https://github.com/GijsTimmers/cursor)
