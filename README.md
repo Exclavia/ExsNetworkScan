@@ -45,5 +45,14 @@ To get an API Key (It's free and it stops lookup rate limits), create an account
  > however you can try running it first to see if you can just use the base Scapy package.
 
 
-### Download master.zip
-- [Download](https://github.com/Exclavia/ExsNetworkScan/archive/refs/heads/master.zip)
+
+## Other resources
+
+- [Main page - Git.Exclavia.Network](https://git.exclavia.network/)
+- [TestPyPi Project Page](https://test.pypi.org/project/ExsNetworkScan/)
+- [Main repository](https://github.com/Exclavia/ExsNetworkScan) 
+- [Releases](https://github.com/Exclavia/ExsNetworkScan/releases)
+- [Commits](https://github.com/Exclavia/ExsNetworkScan/commits)
+- [Issues](https://github.com/Exclavia/ExsNetworkScan/issues)
+
+
