@@ -5,7 +5,7 @@ with open("README.md", "r", encoding = "utf-8") as fh:
 
 setuptools.setup(
     name = "ExsNetworkScan",
-    version = "1.2.8",
+    version = "1.3.0",
     author = "Exclavia",
     author_email = "git@exclavia.network",
     description = "A simple network scanner written in Python using Scapy",

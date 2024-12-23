@@ -1,26 +1,17 @@
 from scapy.all import ARP, Ether, srp
-import os
-import requests
 import time
-from datetime import datetime
-import cursor
+import requests
 import configparser
+from CMods.system import *
 
 config = configparser.ConfigParser()
 ini_file = "exnsConfig.ini"
 
-getCwd = os.getcwd()
-
-# Global list for scanned items.
 clients = []
-
-def clear_console():
-    """Clears the console."""
-    os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 
 def get_mac_details(mac_address, use_api=False):
     """Get vendor names based on MAC address."""
-    apiKey = config["apiKey"]["key"] if use_api else None
+    apiKey = config["apiKey"].get("key") if use_api else None
     url = f"https://api.maclookup.app/v2/macs/{mac_address}"
     if apiKey:
         url += f'?apiKey={apiKey}'
@@ -29,15 +20,36 @@ def get_mac_details(mac_address, use_api=False):
     response = requests.get(url)
     
     if response.status_code == 200:
-        company = response.json().get('company', "[ Unknown Vendor ]")
-        return company if company else "[ Unknown Vendor ]"
+        return response.json().get('company', "[ Unknown Vendor ]")
     return "[ Unknown Vendor ]"
+
+def new_gateway():
+    if input(" Would you like to change the currently set default gateway IP? [y/n]: ").strip().lower() == "y":
+        new_ip = input(" Please enter a new gateway IP: ").strip()
+        if new_ip and new_ip.replace(".", "").isnumeric():
+            config["DefaultGateway"]["ip"] = new_ip
+            with open(ini_file, "w") as f:
+                config.write(f)
+            print(f" {new_ip} set as gateway IP.")
+            time.sleep(0.5)
+            main()
+        else:
+            print(" Please enter a valid IP address.")
+            time.sleep(0.5)
+            clear_console()
+            new_gateway()
+    else:
+        exit_program(0)
+            
+            
 
 def no_devices(default_gateway):
     """Handle case when no devices are found."""
     clear_console()
-    print(f"\n No devices found in the network.\n Make sure your default gateway is set in the {getCwd}\\exnsConfig.ini file.\n Current gateway set: {default_gateway}\n")
-    exit()
+    print(f"\n No devices found in the network.\n Make sure your default gateway is set in the {cwd()}\\exnsConfig.ini file.\n Current gateway set: {default_gateway}\n")
+    new_gateway()
+                
+    
 
 def save_results(dt_file_str, datetime_string):
     """Save scan results to a file."""
@@ -47,11 +59,11 @@ def save_results(dt_file_str, datetime_string):
         for client in clients:
             f.write(f"{client['ip']:16}    {client['Vendor(MAC)']}\n")
         f.write("=" * 68 + f"\n\nNetwork scanned at: {datetime_string}\n")
-    print(f"\nResults saved: {os.getcwd()}\\{dt_file_str}_network-scan.txt\n")
+    print(f"\nResults saved: {cwd()}\\{dt_file_str}_network-scan.txt\n")
 
 def result_options(api_check, current_gateway, dtstr, dtstr_file):
     """Handle user options after scanning."""
-    cursor.show()
+    cursor(True)
     print("\n[0] Save results and exit\n[1] Save results and run again\n[2] Run again without saving\n[3] Exit without saving\n")
     
     while True:
@@ -59,30 +71,30 @@ def result_options(api_check, current_gateway, dtstr, dtstr_file):
         if saveout in {"0", "1", "2", "3"}:
             break
         print("\nInvalid option!\n")
-
+    
     if saveout in {"0", "1"}:
         save_results(dtstr_file, dtstr)
         if saveout == "1":
             time.sleep(1)
             net_scan(api_check, current_gateway)
-        exit()
+        exit_program(0)
     
     if saveout in {"2", "3"}:
         if saveout == "2":
             print("\nResults not saved.\n")
             time.sleep(1)
             net_scan(api_check, current_gateway)
-        exit()
+        exit_program(0)
 
 def net_scan(api_check, default_gateway):
     """Perform network scanning."""
     clear_console()
-    cursor.hide()
+    cursor(False)
     clients.clear()
     
-    current_datetime = datetime.now()
-    datetime_string = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
-    dt_file_str = current_datetime.strftime('%Y-%m-%d_%H.%M.%S')
+    current_datetime = cdt()
+    datetime_string = stringify_datetime(current_datetime)
+    dt_file_str = filename_datetime(current_datetime)
     
     target_ip = f"{default_gateway}/24"
     arp = ARP(pdst=target_ip)
@@ -117,11 +129,11 @@ def network_print(apiCheck, default_gateway, device_count, current_dt, cdt_file)
     print("  " + "=" * 68 + f"\n\n Network scanned at: {current_dt}\n")
     result_options(apiCheck, default_gateway, current_dt, cdt_file)
 
-def config_set():
+def main():
     """Check and set configuration for gateway and API key."""
     clear_console()
     
-    if os.path.exists(ini_file) == False:
+    if not os.path.exists(ini_file):
         config.add_section("DefaultGateway")
         config.add_section("apiKey")
         config.set("DefaultGateway", "IP", "")
@@ -129,53 +141,54 @@ def config_set():
         with open(ini_file, "w") as configfile:
             config.write(configfile)
             
-            
     config.read(ini_file)        
-    gateway = config["DefaultGateway"]["ip"]
-    api_key = config["apiKey"]["key"]
+    gateway = config["DefaultGateway"].get("ip", "")
+    api_key = config["apiKey"].get("key", "")
     
-    
-    
-    if gateway != "":
-        
-        if api_key != "":
+    if gateway:
+        if api_key:
             net_scan(api_check=True, default_gateway=gateway)
         else:
             if input("No API key set (Free at https://my.maclookup.app/). Would you like to set a key? [y/n]: ").strip().lower() == "y":
                 key_in = input("Input your API Key:\n").strip()
                 if key_in:
-                    url = f"https://api.maclookup.app/v2/macs/C8:D7:19:FF:FF:FF?apiKey={key_in}"
-                    response = requests.get(url)
-                    
-                    if response.status_code == 401:
-                        print("Error in API Key")
-                        time.sleep(1)
-                        config_set()
-                    
-                    config["apiKey"]["key"] = key_in
-                    with open(ini_file, "w") as f:
-                        config.write(f)
-                    print("API key set!")
-                    time.sleep(0.5)
-                    net_scan(api_check=True, default_gateway=gateway)
+                    try:
+                        if api_check(key_in):
+                            config["apiKey"]["key"] = key_in
+                            with open(ini_file, "w") as f:
+                                config.write(f)
+                            print("API key set!")
+                            time.sleep(0.5)
+                            net_scan(api_check=True, default_gateway=gateway)
+                        else:
+                            print("Error in API Key")
+                            time.sleep(1)
+                            main()
+                    except Exception as e:
+                        print(f"An error occurred: {e}")
+                        exit_program(1)
                 else:
                     print("API Key cannot be blank!")
                     time.sleep(1)
-                    config_set()
+                    main()
             else:
                 net_scan(api_check=False, default_gateway=gateway)
     else:
         ip_in = input("No gateway IP set. Please set your default gateway IP: ").strip()
-        if ip_in:
+        if ip_in and ip_in.replace(".", "").isnumeric():
             config["DefaultGateway"]["ip"] = ip_in
             with open(ini_file, "w") as f:
                 config.write(f)
             print(f"{ip_in} set as gateway IP.")
             time.sleep(0.5)
-            config_set()
+            main()
         else:
-            print("Gateway IP cannot be blank!")
-            time.sleep(1)
-            config_set()
+            print("Please enter a valid IP address.")
+            time.sleep(0.5)
+            main()
 
-config_set()
+try:
+    main()
+except Exception as e:
+    print(f"An error occurred: {e}")
+    exit_program(1)
