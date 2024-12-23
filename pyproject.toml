@@ -4,17 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ExsNetworkScan"
-version = "1.2.4"
+version = "1.2.8"
 dependencies = [
   "scapy",
   "cursor"
 ]
 requires-python = ">=3.8"
 authors = [
-  {name = "Exclavia", email = "exclaviarino@gmail.com"}
+  {name = "Exclavia", email = "git@exclavia.network"}
 ]
 maintainers = [
-  {name = "Exclavia", email = "exclaviarino@gmail.com"}
+  {name = "Exclavia", email = "git@exclavia.network"}
 ]
 description = "A simple network scanner written in Python using Scapy"
 readme = "README.md"
@@ -27,7 +27,6 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
   "Environment :: Console",
-  "Operating System :: Microsoft :: Windows :: Windows 10",
   "Topic :: System :: Networking :: Monitoring",
   "Topic :: Utilities"
 ]
@@ -40,5 +39,8 @@ Changelog = "https://github.com/Exclavia/ExsNetworkScan/commits"
 
 
 [project.scripts]
-netscan = "NetExScan.main:config_set"
+netscan = "NetExScan.main:main"
+cwd = "CMods.system:cwd"
+cdt = "CMods.system:cdt"
+
 

@@ -16,6 +16,6 @@ IF "%1" == "-3" (
   WHERE %PYTHON% >nul 2>&1
   IF %ERRORLEVEL% NEQ 0 set PYTHON=python
 )
-%PYTHON% main.py
+%PYTHON% src/main.py
 title ExsNetworkScan
 PAUSE

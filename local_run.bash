@@ -10,4 +10,4 @@ then
   echo "WARNING: '$PYTHON' not found, using 'python' instead."
   PYTHON=python
 fi
-PYTHONPATH=$DIR exec "$PYTHON" main.py
+PYTHONPATH=$DIR exec "$PYTHON" src/main.py
